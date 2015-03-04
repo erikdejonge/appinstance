@@ -5,7 +5,7 @@
 Check if an app with the same name is running, supports parameters.
 Erik de Jonge
 erik@a8.nl
-license: gpl2
+license: GNU-GPL2
 """
 
 import os
@@ -76,20 +76,16 @@ class AppInstance(object):
             if running is False:
                 os.remove(self.lockfile)
 
-            if self.verbose is True:
-                if running is True:
-                    print "\033[91mAnother instance found:", pid, "\033[0m"
-
         if not running:
             fh = open(self.lockfile, "w")
             fh.write(str(os.getpid()))
             fh.close()
 
             if self.verbose is True:
-                print "\033[32mOk:", self.name, self.lockfile, str(os.getpid()) + "\033[0m"
+                print "\033[32mInstance ok:", self.name, self.lockfile, str(os.getpid()) + "\033[0m"
         else:
             if self.verbose:
-                print "\033[32mError:", self.name, self.lockfile, str(os.getpid()) + "\033[0m"
+                print "\033[31mInstance error:", self.name, self.lockfile, str(os.getpid()) + "\033[0m"
             raise AppInstanceRunning(self.lockfile)
 
         return running
