@@ -4,6 +4,11 @@ Check if an app with the same name is running, supports parameters.
 ###intention
 In cronjobs to detect if a program with the same arguments is already running
 
+###install
+```bash
+pip install appinstance
+```
+
 ###usage
 
 ```python
