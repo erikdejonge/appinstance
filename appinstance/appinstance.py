@@ -36,7 +36,7 @@ class AppInstance(object):
         """
         self.verbose = verbose
         self.arguments = arguments
-        self.name = main.__file__.split(".")[0]
+        self.name = basename(main.__file__).split(".")[0]
 
         if arguments is None:
             self.lockfile = join(expanduser("~"), "." + self.name + ".pid")
@@ -63,8 +63,12 @@ class AppInstance(object):
         running = False
 
         if exists(self.lockfile):
-            pid = int(open(self.lockfile).read().strip())
+            lfc = open(self.lockfile).read().strip()
             cmdline = None
+            pid = ""
+            if len(lfc) > 0:
+                pid = int(lfc)
+            
 
             for p in psutil.process_iter():
                 if p.pid == pid:
