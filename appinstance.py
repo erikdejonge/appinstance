@@ -1,21 +1,25 @@
-
+# coding=utf-8
 """
+
 # appinstance
 Check if an app with the same name is running, supports parameters.
-
 Erik de Jonge
 erik@a8.nl
 license: gpl2
 """
 
+import os
 import psutil
-from os.path import basename, join, expanduser
+import hashlib
+from os.path import basename, join, expanduser, exists
+
+
+import __main__ as main
 
 
 class AppInstanceRunning(AssertionError):
     """
-    @type AssertionError: str, unicode
-    @return: None
+    AppInstanceRunning
     """
     pass
 
@@ -32,13 +36,14 @@ class AppInstance(object):
         """
         self.verbose = verbose
         self.arguments = arguments
-        name = basename(__file__).split(".")[0]
+        self.name = main.__file__.split(".")[0]
 
         if arguments is None:
-            self.lockfile = join(expanduser("~"), "." + name + ".pid")
+            self.lockfile = join(expanduser("~"), "." + self.name + ".pid")
         else:
-            lfname = hashlib.md5(basename(__file__) + arguments).hexdigest()
-            self.lockfile = join(expanduser("~"), "." + name + "_" + lfname + ".pid")
+            uname = str(basename(self.name)) + "-" + str(arguments)
+            lfname = hashlib.md5(uname).hexdigest()
+            self.lockfile = join(expanduser("~"), "." + self.name + "_" + lfname + ".pid")
 
     def __exit__(self, t, value, traceback):
         """
@@ -47,10 +52,7 @@ class AppInstance(object):
         @type traceback: str, unicode
         @return: None
         """
-        print "\033[92m", t, "\033[0m"
-        print "\033[93m", value, "\033[0m"
-        print "\033[94m", traceback, "\033[0m"
-        if os.path.exists(self.lockfile):
+        if exists(self.lockfile):
             if int(open(self.lockfile).read()) == os.getpid():
                 os.remove(self.lockfile)
 
@@ -68,14 +70,11 @@ class AppInstance(object):
                 if p.pid == pid:
                     cmdline = " ".join(p.as_dict()["cmdline"])
 
-                    if __file__ in str(cmdline):
+                    if self.name in str(cmdline):
                         running = True
 
             if running is False:
                 os.remove(self.lockfile)
-
-            if self.verbose is True and cmdline is not None and running is False:
-                print "\033[91mAnother type proc found:", pid, "\033[0m"
 
             if self.verbose is True:
                 if running is True:
@@ -87,8 +86,10 @@ class AppInstance(object):
             fh.close()
 
             if self.verbose is True:
-                print "\033[32m" + self.lockfile, str(os.getpid()) + "\033[0m"
+                print "\033[32mOk:", self.name, self.lockfile, str(os.getpid()) + "\033[0m"
         else:
+            if self.verbose:
+                print "\033[32mError:", self.name, self.lockfile, str(os.getpid()) + "\033[0m"
             raise AppInstanceRunning(self.lockfile)
 
         return running

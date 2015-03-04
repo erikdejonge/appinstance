@@ -11,9 +11,12 @@ def main():
     """
     main
     """
-    with AppInstance("app1", True):
-        print "sleep for minute"
-        time.sleep(60)
+    try:
+        with AppInstance("arg1", True):
+            print "sleep for 5 sec"
+            time.sleep(2)
+    except AppInstanceRunning:
+        print "already running"
 
 
 if __name__ == "__main__":

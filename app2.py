@@ -3,6 +3,7 @@
 appinstance
 Active8 (04-03-15)
 """
+import time
 from appinstance import AppInstance, AppInstanceRunning
 
 
@@ -10,9 +11,13 @@ def main():
     """
     main
     """
-    with AppInstance("app2", True):
-        print "sleep for minute"
-        time.sleep(60)
+    try:
+        with AppInstance("arg2", True):
+            print "sleep for 2 sec"
+            time.sleep(2)
+    except AppInstanceRunning:
+        print "already running"
+        
 
 
 if __name__ == "__main__":
