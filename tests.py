@@ -5,7 +5,8 @@ erik@a8.nl (04-03-15)
 license: GNU-GPL2
 """
 
-import unittest
+from unittester import *
+
 from appinstance import AppInstance, AppInstanceRunning
 
 
@@ -46,7 +47,7 @@ def main():
     """
     main
     """
-    unittest.main()
+    unit_test_main(globals())
 
 
 if __name__ == "__main__":
