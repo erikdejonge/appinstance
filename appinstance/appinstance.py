@@ -13,6 +13,8 @@ import psutil
 import hashlib
 from os.path import basename, join, expanduser, exists
 
+# noinspection PyUnresolvedReferences
+
 
 import __main__ as main
 
@@ -45,6 +47,7 @@ class AppInstance(object):
             lfname = hashlib.md5(uname).hexdigest()
             self.lockfile = join(expanduser("~"), "." + self.name + "_" + lfname + ".pid")
 
+    # noinspection PyUnusedLocal
     def __exit__(self, t, value, traceback):
         """
         @type t: str, unicode
@@ -64,11 +67,10 @@ class AppInstance(object):
 
         if exists(self.lockfile):
             lfc = open(self.lockfile).read().strip()
-            cmdline = None
             pid = ""
+
             if len(lfc) > 0:
                 pid = int(lfc)
-            
 
             for p in psutil.process_iter():
                 if p.pid == pid:

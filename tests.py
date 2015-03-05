@@ -13,8 +13,8 @@ def more_then_one():
     """
     more_then_one
     """
-    with AppInstance("arg1", verbose=False):
-        with AppInstance("arg1", verbose=False):
+    with AppInstance("arg1"):
+        with AppInstance("arg1"):
             pass  # error here
 
 
@@ -22,8 +22,8 @@ def more_then_one_different_args():
     """
     more_then_one
     """
-    with AppInstance("arg1", verbose=False):
-        with AppInstance("arg2", verbose=False):
+    with AppInstance("arg1"):
+        with AppInstance("arg2"):
             pass  # no error here
 
 

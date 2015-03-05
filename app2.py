@@ -3,6 +3,7 @@
 appinstance
 Active8 (04-03-15)
 """
+
 import time
 from appinstance import AppInstance, AppInstanceRunning
 
@@ -17,7 +18,6 @@ def main():
             time.sleep(2)
     except AppInstanceRunning:
         print "already running"
-        
 
 
 if __name__ == "__main__":
