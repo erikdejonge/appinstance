@@ -1,6 +1,11 @@
 # appinstance
 Check if an app with the same name is running, supports parameters.
 
+###install
+```bash
+pip install appinstance
+```
+
 ###intention
 In cronjobs to detect if a program with the same arguments is already running
 
