@@ -6,7 +6,7 @@ license: GNU-GPL2
 """
 from setuptools import setup
 setup(name='appinstance',
-      version='10',
+      version='11',
       description='Check if an app with the same name is running, supports parameters.',
       url='https://github.com/erikdejonge/appinstance',
       author='Erik de Jonge',
