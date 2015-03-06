@@ -1,6 +1,8 @@
 # coding=utf-8
 """
 appinstance
-erik@a8.nl (04-03-15)
+-
+Active8 (04-03-15)
+author: erik@a8.nl
 """
 from appinstance import *
