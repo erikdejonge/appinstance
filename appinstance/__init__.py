@@ -7,10 +7,21 @@ Erik de Jonge
 erik@a8.nl
 license: GNU-GPL2
 """
+from __future__ import print_function
+from __future__ import unicode_literals
+from __future__ import division
+from __future__ import absolute_import
+from builtins import int
+from builtins import open
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import object
 
+import hashlib
 import os
 import psutil
-import hashlib
+import sys
 from os.path import basename, join, expanduser, exists
 
 # noinspection PyUnresolvedReferences
@@ -24,6 +35,20 @@ class AppInstanceRunning(AssertionError):
     AppInstanceRunning
     """
     pass
+
+
+def md5hex(uname):
+    """
+    @type uname: str, unicode
+    @return: None
+    """
+    if sys.version_info.major == 3:
+        # noinspection PyArgumentList
+        hexd = hashlib.md5(bytes(uname, 'utf-8')).hexdigest()
+    else:
+        hexd = hashlib.md5(str(uname)).hexdigest()
+
+    return hexd
 
 
 class AppInstance(object):
@@ -44,7 +69,7 @@ class AppInstance(object):
             self.lockfile = join(expanduser("~"), "." + self.name + ".pid")
         else:
             uname = str(basename(self.name)) + "-" + str(arguments)
-            lfname = hashlib.md5(uname).hexdigest()
+            lfname = md5hex(uname)
             self.lockfile = join(expanduser("~"), "." + self.name + "_" + lfname + ".pid")
 
     # noinspection PyUnusedLocal
@@ -88,10 +113,10 @@ class AppInstance(object):
             fh.close()
 
             if self.verbose is True:
-                print "\033[32mInstance ok:", self.name, self.lockfile, str(os.getpid()) + "\033[0m"
+                print("\033[32mInstance ok:", self.name, self.lockfile, str(os.getpid()) + "\033[0m")
         else:
             if self.verbose:
-                print "\033[31mInstance error:", self.name, self.lockfile, str(os.getpid()) + "\033[0m"
+                print("\033[31mInstance error:", self.name, self.lockfile, str(os.getpid()) + "\033[0m")
             raise AppInstanceRunning(self.lockfile)
 
         return running
