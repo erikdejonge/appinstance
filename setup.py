@@ -12,7 +12,7 @@ from future import standard_library
 standard_library.install_aliases()
 from setuptools import setup
 setup(name='appinstance',
-      version='14',
+      version='16',
       description='Check if an app with the same name is running, supports parameters.',
       url='https://github.com/erikdejonge/appinstance',
       author='Erik de Jonge',
@@ -24,7 +24,7 @@ setup(name='appinstance',
       classifiers=[
           "Programming Language :: Python",
           "Programming Language :: Python :: 3",
-          "Development Status :: Beta",
+          "Development Status :: 4 - Beta ",
           "Intended Audience :: Developers",
           "License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
           "Operating System :: POSIX",
