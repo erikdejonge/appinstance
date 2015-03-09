@@ -55,20 +55,20 @@ class AppInstance(ContextDecorator):
     """
     Lockfile
     """
-    def __init__(self, arguments=None, verbose=False):
+    def __init__(self, args=None, verbose=False):
         """
-        @type arguments: str, unicode
+        @type args: str, unicode
         @type verbose: bool
         @return: None
         """
         self.verbose = verbose
-        self.arguments = arguments
+        self.arguments = args
         self.name = basename(main.__file__).split(".")[0]
 
-        if arguments is None:
+        if args is None:
             self.lockfile = join(expanduser("~"), "." + str(self.name) + ".pid")
         else:
-            uname = str(basename(self.name)) + "-" + str(arguments)
+            uname = str(basename(self.name)) + "-" + str(args)
             lfname = md5hex(uname)
             self.lockfile = join(expanduser("~"), "." + str(self.name) + "_" + lfname + ".pid")
 
