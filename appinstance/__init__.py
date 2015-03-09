@@ -16,7 +16,7 @@ from builtins import open
 from future import standard_library
 standard_library.install_aliases()
 from builtins import str
-from builtins import object
+from contextlib import ContextDecorator
 
 import hashlib
 import os
@@ -51,7 +51,7 @@ def md5hex(uname):
     return hexd
 
 
-class AppInstance(object):
+class AppInstance(ContextDecorator):
     """
     Lockfile
     """
@@ -66,18 +66,16 @@ class AppInstance(object):
         self.name = basename(main.__file__).split(".")[0]
 
         if arguments is None:
-            self.lockfile = join(expanduser("~"), "." + self.name + ".pid")
+            self.lockfile = join(expanduser("~"), "." + str(self.name) + ".pid")
         else:
             uname = str(basename(self.name)) + "-" + str(arguments)
             lfname = md5hex(uname)
-            self.lockfile = join(expanduser("~"), "." + self.name + "_" + lfname + ".pid")
+            self.lockfile = join(expanduser("~"), "." + str(self.name) + "_" + lfname + ".pid")
 
     # noinspection PyUnusedLocal
-    def __exit__(self, t, value, traceback):
+    def __exit__(self, *exc):
         """
-        @type t: str, unicode
-        @type value: str, unicode
-        @type traceback: str, unicode
+        @type exc: object
         @return: None
         """
         if exists(self.lockfile):
