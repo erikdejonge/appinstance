@@ -14,7 +14,7 @@ setup(name='appinstance',
       license='GPL',
       packages=['appinstance'],
       zip_safe=True,
-      install_requires=['psutil'],
+      #install_requires=['psutil'],
       classifiers=[
           "Programming Language :: Python",
           "Programming Language :: Python :: 3",
