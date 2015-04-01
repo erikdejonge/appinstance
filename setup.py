@@ -24,4 +24,4 @@ setup(name='appinstance',
           "Operating System :: POSIX",
           "Topic :: Software Development :: Libraries :: Python Modules",
           "Topic :: System",
-      ], requires=['netifaces', 'future'])
+      ], requires=['netifaces', 'future', 'pygments'])
