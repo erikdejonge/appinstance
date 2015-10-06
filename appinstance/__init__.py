@@ -17,7 +17,10 @@ from builtins import open
 from future import standard_library
 standard_library.install_aliases()
 from builtins import str
-from contextlib import ContextDecorator
+try:
+    from contextlib import ContextDecorator
+except ImportError:
+    from contextdecorator import ContextDecorator
 
 import hashlib
 import os
